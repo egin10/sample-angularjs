@@ -20,25 +20,41 @@
     <div ng-controller="searchCtrl">
         <h1>Data Students</h1>
 
-        <label for="filter">Kata Kunci</label>
-        <input type="search" ng-model="q" placeholder="Cari siswa...">
-        <br><br>
+        <p>
+            <label for="filter">Kata Kunci</label>
+            <input type="search" ng-model="q" placeholder="Cari siswa...">
+        </p>
+        
+        <p>
+            <select ng-change="changeAction()" ng-model="pagesize" ng-options="opt as opt for opt in pagesizes"></select>
+            <label>Halaman {{currentpage + 1}} dari {{pagenumber}} halaman</label>
+        </p>
     
-        <table border="1">
-            <tr>
-                <td width="100" align="center" class="table-header" ng-click="boolname=ordering(boolname, 'name');">Nama</td>
-                <td width="50" align="center" class="table-header" ng-click="boolclass=ordering(boolclass, 'class');">Kelas</td>
-                <td width="50" align="center" class="table-header" ng-click="boolscore=ordering(boolscore, 'score');">Nilai</td>
-            </tr>
-            <tr ng-repeat="s in (results = (students | filter:q | orderBy:ord:ordstatus))">
-                <td>{{s.name}}</td>
-                <td align="center">{{s.class}}</td>
-                <td align="center">{{s.score}}</td>
-            </tr>
-            <tr ng-if="results.length == 0">
-                <td colspan="3">Hasil tidak ditemukan!</td>
-            </tr>
-        </table>
+        <p>
+            <table border="1">
+                <tr>
+                    <td width="100" align="center" class="table-header" ng-click="boolname=ordering(boolname, 'name');">Nama</td>
+                    <td width="50" align="center" class="table-header" ng-click="boolclass=ordering(boolclass, 'class');">Kelas</td>
+                    <td width="50" align="center" class="table-header" ng-click="boolscore=ordering(boolscore, 'score');">Nilai</td>
+                </tr>
+                <tr ng-repeat="s in (results = (students | filter:q | orderBy:ord:ordstatus))"
+                    ng-if="$index >= (currentpage * pagesize) && $index < ((currentpage + 1) * pagesize)">
+                    <td>{{s.name}}</td>
+                    <td align="center">{{s.class}}</td>
+                    <td align="center">{{s.score}}</td>
+                </tr>
+                <tr ng-if="results.length == 0">
+                    <td colspan="3">Hasil tidak ditemukan!</td>
+                </tr>
+            </table>
+        </p>
+
+        <p>
+            <button ng-click="currentpage=0">pertama</button>
+            <button ng-click="paging(0)">sebelumnya</button>
+            <button ng-click="paging(1)">selanjutnya</button>
+            <button ng-click="currentpage=pagenumber-1">terakhir</button>
+        </p>
     </div>
 </body>
 </html>
