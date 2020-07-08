@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple AngularJs 1.8.0</title>
+
+    <style>
+        .table-header {
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+
+    <script src="src/angular.js"></script>
+    <script src="src/app.js"></script>
+</head>
+<body ng-app="myApp">
+
+    <div ng-controller="searchCtrl">
+        <h1>Data Students</h1>
+
+        <label for="filter">Kata Kunci</label>
+        <input type="search" ng-model="q" placeholder="Cari siswa...">
+        <br><br>
+    
+        <table border="1">
+            <tr>
+                <td width="100" align="center" class="table-header" ng-click="boolname=ordering(boolname, 'name');">Nama</td>
+                <td width="50" align="center" class="table-header" ng-click="boolclass=ordering(boolclass, 'class');">Kelas</td>
+                <td width="50" align="center" class="table-header" ng-click="boolscore=ordering(boolscore, 'score');">Nilai</td>
+            </tr>
+            <tr ng-repeat="s in (results = (students | filter:q | orderBy:ord:ordstatus))">
+                <td>{{s.name}}</td>
+                <td align="center">{{s.class}}</td>
+                <td align="center">{{s.score}}</td>
+            </tr>
+            <tr ng-if="results.length == 0">
+                <td colspan="3">Hasil tidak ditemukan!</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
